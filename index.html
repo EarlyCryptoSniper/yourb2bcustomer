@@ -6,8 +6,9 @@
 <title>Your B2B customer</title>
 <style>
 html,body{margin:0;min-height:100vh;background:#070d1d;color:#f4f6fb;font-family:Inter,system-ui,sans-serif}
-body{display:flex;align-items:flex-start;padding:28px 8vw 48px}
-main{width:min(820px,100%)}
+body{display:flex;flex-direction:column;align-items:stretch;min-height:100vh;padding:28px 8vw 0;box-sizing:border-box}
+.wrap{width:min(820px,100%);flex:1;display:flex;flex-direction:column}
+main{flex:1}
 img{width:168px;height:auto;display:block;margin:0 0 20px}
 h1{font-size:clamp(36px,6vw,64px);font-weight:560;letter-spacing:-.03em;line-height:1.05;margin:0 0 18px}
 p{max-width:34rem;color:#9aa4b2;font-size:20px;line-height:1.45;margin:0 0 28px}
@@ -37,9 +38,15 @@ button.choice.buying{
 .label{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px}
 .label.sales{color:#ff8a55}
 .label.buying{color:#7eb0ff}
+footer{
+  margin-top:auto;padding:32px 0 28px;
+  color:#9aa4b2;font-size:15px
+}
+footer a{color:#f4f6fb}
 </style>
 </head>
 <body>
+<div class="wrap">
 <main>
 <img src="logo%20X.jpg" alt=""/>
 
@@ -51,7 +58,6 @@ button.choice.buying{
 <button type="button" class="choice sales" data-go="sales">Sales</button>
 <button type="button" class="choice buying" data-go="buying">Buying</button>
 </div>
-<a href="https://x.com/DutchKonnect">@DutchKonnect</a>
 </section>
 
 <section id="sales" class="panel" aria-label="Sales">
@@ -60,7 +66,6 @@ button.choice.buying{
 <h1>Sell with the homework done.</h1>
 <p>You sit on the seller side. I bring the buyer's chair, the objections, and the prep — so your next conversation starts further in.</p>
 <p>Next steps for this path land here.</p>
-<a href="https://x.com/DutchKonnect">@DutchKonnect</a>
 </section>
 
 <section id="buying" class="panel" aria-label="Buying">
@@ -69,9 +74,12 @@ button.choice.buying{
 <h1>Buy with a sharper seat.</h1>
 <p>You sit on the buyer side. I help you pressure-test pitches, clarify the job to be done, and keep vendors honest.</p>
 <p>Next steps for this path land here.</p>
-<a href="https://x.com/DutchKonnect">@DutchKonnect</a>
 </section>
 </main>
+<footer>
+<a href="https://x.com/DutchKonnect">@DutchKonnect</a>
+</footer>
+</div>
 <script>
 (function () {
   var panels = document.querySelectorAll(".panel");
