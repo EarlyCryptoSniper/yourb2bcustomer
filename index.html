@@ -296,10 +296,10 @@ header.site-header img{max-height:min(160px,22vh);width:auto;max-width:100%;marg
   }
   function escapeHtml(s) {
     return String(s)
-      .replace(/&/g, "&")
-      .replace(/</g, "<")
-      .replace(/>/g, ">")
-      .replace(/"/g, """);
+      .replace(/&/g, "&" + "amp;")
+      .replace(/</g, "&" + "lt;")
+      .replace(/>/g, "&" + "gt;")
+      .replace(/"/g, "&" + "quot;");
   }
   function safeHref(url) {
     var u = String(url || "").trim();
