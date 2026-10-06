@@ -12,14 +12,76 @@ img{width:168px;height:auto;display:block;margin:0 0 28px}
 h1{font-size:clamp(36px,6vw,64px);font-weight:560;letter-spacing:-.03em;line-height:1.05;margin:0 0 18px}
 p{max-width:34rem;color:#9aa4b2;font-size:20px;line-height:1.45;margin:0 0 28px}
 a{color:#f4f6fb;text-decoration:none;border-bottom:1px solid rgba(126,200,255,.7)}
+.choices{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 28px}
+button.choice{
+  appearance:none;cursor:pointer;border:1px solid rgba(244,246,251,.28);
+  background:rgba(244,246,251,.04);color:#f4f6fb;
+  font:inherit;font-size:17px;font-weight:500;letter-spacing:-.01em;
+  padding:14px 22px;border-radius:999px;transition:background .15s,border-color .15s
+}
+button.choice:hover{background:rgba(126,200,255,.12);border-color:rgba(126,200,255,.55)}
+button.choice:focus-visible{outline:2px solid rgba(126,200,255,.8);outline-offset:3px}
+.panel{display:none}
+.panel.active{display:block}
+.back{
+  appearance:none;cursor:pointer;background:none;border:none;
+  color:#9aa4b2;font:inherit;font-size:15px;padding:0;margin:0 0 22px;
+  border-bottom:1px solid transparent
+}
+.back:hover{color:#f4f6fb;border-bottom-color:rgba(126,200,255,.5)}
+.label{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#7ec8ff;margin:0 0 10px}
 </style>
 </head>
 <body>
 <main>
 <img src="logo%20X.jpg" alt=""/>
+
+<section id="home" class="panel active" aria-label="Choose your position">
 <h1>I am your B2B customer.</h1>
 <p>I sat in the buyer's chair. I use that, and AI, so sales shows up with the homework done.</p>
+<p style="margin-bottom:16px;font-size:17px;color:#c5cdd8">Choose your position.</p>
+<div class="choices" role="group" aria-label="Position">
+<button type="button" class="choice" data-go="sales">Sales</button>
+<button type="button" class="choice" data-go="buying">Buying</button>
+</div>
 <a href="https://x.com/DutchKonnect">@DutchKonnect</a>
+</section>
+
+<section id="sales" class="panel" aria-label="Sales">
+<button type="button" class="back" data-go="home">← Back</button>
+<span class="label">Sales</span>
+<h1>Sell with the homework done.</h1>
+<p>You sit on the seller side. I bring the buyer's chair, the objections, and the prep — so your next conversation starts further in.</p>
+<p>Next steps for this path land here.</p>
+<a href="https://x.com/DutchKonnect">@DutchKonnect</a>
+</section>
+
+<section id="buying" class="panel" aria-label="Buying">
+<button type="button" class="back" data-go="home">← Back</button>
+<span class="label">Buying</span>
+<h1>Buy with a sharper seat.</h1>
+<p>You sit on the buyer side. I help you pressure-test pitches, clarify the job to be done, and keep vendors honest.</p>
+<p>Next steps for this path land here.</p>
+<a href="https://x.com/DutchKonnect">@DutchKonnect</a>
+</section>
 </main>
+<script>
+(function () {
+  var panels = document.querySelectorAll(".panel");
+  function show(id) {
+    panels.forEach(function (el) {
+      el.classList.toggle("active", el.id === id);
+    });
+    history.replaceState(null, "", id === "home" ? "#" : "#" + id);
+  }
+  document.querySelectorAll("[data-go]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      show(btn.getAttribute("data-go"));
+    });
+  });
+  var hash = (location.hash || "").replace(/^#/, "");
+  if (hash === "sales" || hash === "buying") show(hash);
+})();
+</script>
 </body>
 </html>
