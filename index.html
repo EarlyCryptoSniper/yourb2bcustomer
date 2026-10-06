@@ -64,6 +64,72 @@ header.site-header img{max-height:min(160px,22vh);width:auto;max-width:100%;marg
 #sales p,#buying p{margin:0 0 14px;font-size:17px}
 .lead-form{margin-top:4px;gap:12px}
 .back{margin:0 0 12px}
+
+.homework{margin:22px 0 8px;max-width:36rem}
+.homework-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 10px}
+.homework-head h2{margin:0;font-size:15px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#ff8a55}
+.homework-count{font-size:13px;color:#9aa4b2}
+.homework-empty{margin:0;font-size:14px;color:#9aa4b2}
+.homework-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.hw-card{
+  background:#0c1428;border:1px solid rgba(244,246,251,.12);
+  border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px
+}
+.hw-card.editing{border-color:rgba(255,107,44,.55);box-shadow:0 0 0 1px rgba(255,107,44,.25)}
+.hw-card.active-preview{border-color:rgba(255,107,44,.4)}
+.hw-urls{display:flex;flex-direction:column;gap:4px;min-width:0}
+.hw-url{font-size:14px;line-height:1.35;color:#c5cdd8;overflow-wrap:anywhere;word-break:break-word}
+.hw-url strong{display:inline-block;min-width:3.6rem;color:#9aa4b2;font-weight:500;font-size:12px;letter-spacing:.04em;text-transform:uppercase;margin-right:6px}
+.hw-url a{color:#f4f6fb;border-bottom-color:rgba(126,200,255,.45)}
+.hw-meta{font-size:12px;color:#6b7585}
+.hw-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.hw-btn{
+  appearance:none;cursor:pointer;border:1px solid rgba(244,246,251,.18);
+  background:transparent;color:#c5cdd8;font:inherit;font-size:13px;font-weight:500;
+  padding:7px 12px;border-radius:8px
+}
+.hw-btn:hover{color:#f4f6fb;border-color:rgba(244,246,251,.35)}
+.hw-btn.primary{background:#ff6b2c;border-color:transparent;color:#140800;font-weight:600}
+.hw-btn.primary:hover{background:#ff8a55}
+.hw-btn.danger{border-color:rgba(255,107,44,.35);color:#ff8a55}
+.hw-btn.danger:hover{background:rgba(255,107,44,.12);color:#ffb08a}
+.lead-form button.cancel-edit{background:transparent;border:1px solid rgba(244,246,251,.22);color:#c5cdd8;margin-left:8px}
+.lead-form button.cancel-edit:hover{color:#f4f6fb;border-color:rgba(244,246,251,.4)}
+.lead-form .form-actions{display:flex;flex-wrap:wrap;align-items:center;gap:0;margin-top:4px}
+.lead-form .form-actions button{margin-top:0}
+
+.brief-panel{
+  display:none;margin:18px 0 8px;max-width:36rem;
+  background:linear-gradient(165deg,#0e1830 0%,#0a1224 100%);
+  border:1px solid rgba(255,107,44,.35);border-radius:14px;padding:16px 16px 18px;
+  box-shadow:0 18px 40px rgba(0,0,0,.35)
+}
+.brief-panel.visible{display:block}
+.brief-kicker{margin:0 0 6px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#ff8a55;font-weight:600}
+.brief-title{margin:0 0 10px;font-size:clamp(20px,3.5vw,26px);font-weight:560;letter-spacing:-.02em;line-height:1.15;color:#f4f6fb}
+.brief-pair{margin:0 0 14px;font-size:13px;color:#9aa4b2;line-height:1.45;overflow-wrap:anywhere}
+.brief-pair span{color:#c5cdd8}
+.brief-list{margin:0 0 16px;padding:0 0 0 1.15rem;color:#e8ecf4;font-size:15px;line-height:1.45}
+.brief-list li{margin:0 0 8px;padding-left:2px}
+.brief-list li:last-child{margin-bottom:0}
+.brief-list strong{color:#ffb08a;font-weight:600}
+.register-cta{
+  display:flex;flex-direction:column;gap:10px;padding-top:14px;
+  border-top:1px solid rgba(244,246,251,.1)
+}
+.register-cta p{margin:0;font-size:14px;color:#9aa4b2;max-width:none}
+.register-cta .cta-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.register-btn{
+  appearance:none;cursor:pointer;border:none;
+  background:#ff6b2c;color:#140800;font:inherit;font-size:16px;font-weight:600;
+  padding:12px 18px;border-radius:10px
+}
+.register-btn:hover{background:#ff8a55}
+.register-btn:disabled{opacity:.7;cursor:default}
+.register-note{font-size:13px;color:#6b7585}
+.register-done{display:none;font-size:14px;color:#9fe0b6;margin:0}
+.register-done.visible{display:block}
+
 </style>
 </head>
 <body>
@@ -90,9 +156,34 @@ header.site-header img{max-height:min(160px,22vh);width:auto;max-width:100%;marg
 <label>Your customer's URL
 <input type="url" name="customer_url" id="customer_url" placeholder="https://theircustomer.com" required autocomplete="url"/>
 </label>
-<button type="submit">Prepare the homework</button>
+<div class="form-actions">
+<button type="submit" id="sales-submit">Prepare the homework</button>
+<button type="button" class="cancel-edit" id="sales-cancel" hidden>Cancel edit</button>
+</div>
 <p class="hint" id="form-status" hidden></p>
 </form>
+<div class="brief-panel" id="brief-panel" data-brief-preview hidden>
+<p class="brief-kicker">Buyer-chair brief</p>
+<h2 class="brief-title" id="brief-title">Your homework preview</h2>
+<p class="brief-pair" id="brief-pair"></p>
+<ul class="brief-list" id="brief-list"></ul>
+<div class="register-cta">
+<p>This is the sharp preview. Register to lock the brief, keep every account, and unlock the full prep pack.</p>
+<div class="cta-row">
+<button type="button" class="register-btn" id="register-btn">Save & get full brief</button>
+<span class="register-note" id="register-note">No password yet — we save your intent on this device.</span>
+</div>
+<p class="register-done" id="register-done">Saved — you're on the list for the full brief. We'll deepen this from both sites next.</p>
+</div>
+</div>
+<div class="homework" id="homework" data-homework-crud>
+<div class="homework-head">
+<h2>Saved homework</h2>
+<span class="homework-count" id="homework-count"></span>
+</div>
+<p class="homework-empty" id="homework-empty">No entries yet — add your first pair above.</p>
+<ul class="homework-list" id="homework-list" aria-label="Homework entries"></ul>
+</div>
 </section>
 <section id="buying" class="panel" aria-label="Buying">
 <button type="button" class="back" data-go="home">← Back</button>
@@ -115,6 +206,11 @@ header.site-header img{max-height:min(160px,22vh);width:auto;max-width:100%;marg
 </div>
 <script>
 (function () {
+  var STORAGE_KEY = "yb2b_homework";
+  var OLD_YOURS = "yb2b_your_url";
+  var OLD_THEIRS = "yb2b_customer_url";
+  var INTENT_KEY = "yb2b_register_intent";
+
   var panels = document.querySelectorAll(".panel");
   var links = document.querySelectorAll("footer nav a[data-go]");
   function show(id) {
@@ -145,21 +241,358 @@ header.site-header img{max-height:min(160px,22vh);width:auto;max-width:100%;marg
   });
   var hash = (location.hash || "").replace(/^#/, "");
   show(hash === "sales" || hash === "buying" ? hash : "home");
+
+  function uid() {
+    return "hw_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+  }
+  function readEntries() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      }
+    } catch (err) {}
+    return [];
+  }
+  function writeEntries(entries) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+    } catch (err) {}
+  }
+  function migrateOldKeys() {
+    var entries = readEntries();
+    if (entries.length) return entries;
+    var yours = "";
+    var theirs = "";
+    try {
+      yours = (localStorage.getItem(OLD_YOURS) || "").trim();
+      theirs = (localStorage.getItem(OLD_THEIRS) || "").trim();
+    } catch (err) {}
+    if (!yours && !theirs) return entries;
+    entries.push({
+      id: uid(),
+      yours: yours,
+      theirs: theirs,
+      updatedAt: new Date().toISOString()
+    });
+    writeEntries(entries);
+    try {
+      localStorage.removeItem(OLD_YOURS);
+      localStorage.removeItem(OLD_THEIRS);
+    } catch (err) {}
+    return entries;
+  }
+  function formatWhen(iso) {
+    try {
+      var d = new Date(iso);
+      if (isNaN(d.getTime())) return "";
+      return d.toLocaleString(undefined, {
+        month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"
+      });
+    } catch (err) {
+      return "";
+    }
+  }
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&")
+      .replace(/</g, "<")
+      .replace(/>/g, ">")
+      .replace(/"/g, """);
+  }
+  function safeHref(url) {
+    var u = String(url || "").trim();
+    if (/^https?:\/\//i.test(u)) return u;
+    return "#";
+  }
+  function hostFrom(url) {
+    try {
+      var u = new URL(url.indexOf("://") >= 0 ? url : "https://" + url);
+      return (u.hostname || "").replace(/^www\./i, "").toLowerCase();
+    } catch (err) {
+      return String(url || "").replace(/^https?:\/\//i, "").replace(/^www\./i, "").split("/")[0].toLowerCase();
+    }
+  }
+  function brandFromHost(host) {
+    if (!host) return "them";
+    var base = host.split(".")[0] || host;
+    base = base.replace(/[-_]+/g, " ");
+    return base.replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+  }
+  function guessVertical(host) {
+    var h = host || "";
+    if (/shop|store|commerce|cart|retail/.test(h)) return "commerce";
+    if (/pay|bank|fin|credit|lend|insur/.test(h)) return "fintech";
+    if (/health|med|clinic|pharma|care/.test(h)) return "health";
+    if (/cloud|saas|soft|dev|data|ai|tech|api/.test(h)) return "saas";
+    if (/logist|ship|freight|supply/.test(h)) return "logistics";
+    if (/market|agency|media|ad|growth/.test(h)) return "growth";
+    if (/edu|learn|school|course/.test(h)) return "education";
+    return "b2b";
+  }
+  function verticalLabel(v) {
+    return ({
+      commerce: "commerce / retail",
+      fintech: "fintech / payments",
+      health: "health / care",
+      saas: "software / SaaS",
+      logistics: "logistics / supply",
+      growth: "growth / marketing",
+      education: "education",
+      b2b: "B2B"
+    })[v] || "B2B";
+  }
+  function buildBrief(yoursUrl, theirsUrl) {
+    var yoursHost = hostFrom(yoursUrl);
+    var theirsHost = hostFrom(theirsUrl);
+    var seller = brandFromHost(yoursHost);
+    var buyer = brandFromHost(theirsHost);
+    var yoursV = guessVertical(yoursHost);
+    var theirsV = guessVertical(theirsHost);
+    var sameLane = yoursV === theirsV;
+    var bullets = [];
+    bullets.push(
+      "<strong>Priorities:</strong> Walk in as " + escapeHtml(buyer) +
+      " — they care about risk, time-to-value, and whether " + escapeHtml(seller) +
+      " understands a " + escapeHtml(verticalLabel(theirsV)) + " buyer, not a generic pitch."
+    );
+    bullets.push(
+      "<strong>Opener:</strong> \"I looked at " + escapeHtml(theirsHost || buyer) +
+      " the way your buyer would. Here's the job I think you're hiring " +
+      escapeHtml(seller) + " to do — tell me where I'm wrong.\""
+    );
+    if (sameLane) {
+      bullets.push(
+        "<strong>Angle:</strong> Same lane (" + escapeHtml(verticalLabel(theirsV)) +
+        ") — mirror their language, then prove one concrete win they can steal without a long integration story."
+      );
+    } else {
+      bullets.push(
+        "<strong>Angle:</strong> You're " + escapeHtml(verticalLabel(yoursV)) +
+        "; they're " + escapeHtml(verticalLabel(theirsV)) +
+        " — translate your proof into their metrics (cycle time, margin, compliance, or pipeline), not yours."
+      );
+    }
+    bullets.push(
+      "<strong>Objections:</strong> Expect \"we're already covered,\" \"too early / too busy,\" and \"show me it works for companies like " +
+      escapeHtml(buyer) + ".\" Pre-answer with one relevant proof and a low-commitment next step."
+    );
+    bullets.push(
+      "<strong>Next ask:</strong> Book a 20-minute working session: you bring a one-page map of " +
+      escapeHtml(buyer) + "'s buying triggers; they bring the real constraint. Leave with a written next step, not a vague follow-up."
+    );
+    return {
+      title: "How " + buyer + " hears " + seller,
+      pairHtml:
+        "<span>You:</span> " + escapeHtml(yoursUrl) +
+        "<br/><span>Them:</span> " + escapeHtml(theirsUrl),
+      bullets: bullets
+    };
+  }
+
   var form = document.getElementById("sales-form");
+  var yoursInput = document.getElementById("your_url");
+  var theirsInput = document.getElementById("customer_url");
+  var statusEl = document.getElementById("form-status");
+  var submitBtn = document.getElementById("sales-submit");
+  var cancelBtn = document.getElementById("sales-cancel");
+  var listEl = document.getElementById("homework-list");
+  var emptyEl = document.getElementById("homework-empty");
+  var countEl = document.getElementById("homework-count");
+  var briefPanel = document.getElementById("brief-panel");
+  var briefTitle = document.getElementById("brief-title");
+  var briefPair = document.getElementById("brief-pair");
+  var briefList = document.getElementById("brief-list");
+  var registerBtn = document.getElementById("register-btn");
+  var registerNote = document.getElementById("register-note");
+  var registerDone = document.getElementById("register-done");
+  var editingId = null;
+  var activeId = null;
+
+  function setStatus(msg) {
+    if (!statusEl) return;
+    statusEl.hidden = !msg;
+    statusEl.textContent = msg || "";
+  }
+  function intentSaved() {
+    try {
+      var raw = localStorage.getItem(INTENT_KEY);
+      if (!raw) return false;
+      var data = JSON.parse(raw);
+      return !!(data && data.saved);
+    } catch (err) {
+      return false;
+    }
+  }
+  function showRegisterState() {
+    var saved = intentSaved();
+    if (registerBtn) {
+      registerBtn.disabled = saved;
+      registerBtn.textContent = saved ? "Intent saved" : "Save & get full brief";
+    }
+    if (registerNote) registerNote.hidden = saved;
+    if (registerDone) registerDone.classList.toggle("visible", saved);
+  }
+  function showBrief(entry) {
+    if (!briefPanel || !entry) return;
+    var brief = buildBrief(entry.yours, entry.theirs);
+    briefTitle.textContent = brief.title;
+    briefPair.innerHTML = brief.pairHtml;
+    briefList.innerHTML = brief.bullets.map(function (b) { return "<li>" + b + "</li>"; }).join("");
+    briefPanel.hidden = false;
+    briefPanel.classList.add("visible");
+    activeId = entry.id;
+    showRegisterState();
+    requestAnimationFrame(function () {
+      briefPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+  }
+  function hideBrief() {
+    if (!briefPanel) return;
+    briefPanel.hidden = true;
+    briefPanel.classList.remove("visible");
+    activeId = null;
+  }
+  function resetForm() {
+    editingId = null;
+    if (form) form.reset();
+    if (submitBtn) submitBtn.textContent = "Prepare the homework";
+    if (cancelBtn) cancelBtn.hidden = true;
+    if (listEl) {
+      listEl.querySelectorAll(".hw-card.editing").forEach(function (c) {
+        c.classList.remove("editing");
+      });
+    }
+  }
+  function startEdit(entry) {
+    editingId = entry.id;
+    yoursInput.value = entry.yours || "";
+    theirsInput.value = entry.theirs || "";
+    submitBtn.textContent = "Save changes";
+    cancelBtn.hidden = false;
+    setStatus("Editing entry — update the URLs and save.");
+    listEl.querySelectorAll(".hw-card").forEach(function (c) {
+      c.classList.toggle("editing", c.getAttribute("data-id") === entry.id);
+    });
+    yoursInput.focus();
+    form.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+  function render() {
+    var entries = migrateOldKeys();
+    entries.sort(function (a, b) {
+      return String(b.updatedAt || "").localeCompare(String(a.updatedAt || ""));
+    });
+    listEl.innerHTML = "";
+    countEl.textContent = entries.length ? entries.length + (entries.length === 1 ? " entry" : " entries") : "";
+    emptyEl.hidden = entries.length > 0;
+    entries.forEach(function (entry) {
+      var li = document.createElement("li");
+      var classes = "hw-card";
+      if (editingId === entry.id) classes += " editing";
+      if (activeId === entry.id) classes += " active-preview";
+      li.className = classes;
+      li.setAttribute("data-id", entry.id);
+      var when = formatWhen(entry.updatedAt);
+      li.innerHTML =
+        '<div class="hw-urls">' +
+          '<div class="hw-url"><strong>Yours</strong><a href="' + escapeHtml(safeHref(entry.yours)) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(entry.yours || "—") + "</a></div>" +
+          '<div class="hw-url"><strong>Theirs</strong><a href="' + escapeHtml(safeHref(entry.theirs)) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(entry.theirs || "—") + "</a></div>" +
+        "</div>" +
+        (when ? '<div class="hw-meta">Updated ' + escapeHtml(when) + "</div>" : "") +
+        '<div class="hw-actions">' +
+          '<button type="button" class="hw-btn primary" data-action="preview">Preview</button>' +
+          '<button type="button" class="hw-btn" data-action="edit">Edit</button>' +
+          '<button type="button" class="hw-btn danger" data-action="delete">Delete</button>' +
+        "</div>";
+      listEl.appendChild(li);
+    });
+  }
+
+  if (listEl) {
+    listEl.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-action]");
+      if (!btn) return;
+      var card = btn.closest(".hw-card");
+      if (!card) return;
+      var id = card.getAttribute("data-id");
+      var entries = readEntries();
+      var entry = entries.filter(function (x) { return x.id === id; })[0];
+      if (!entry) return;
+      var action = btn.getAttribute("data-action");
+      if (action === "preview") {
+        showBrief(entry);
+        render();
+      } else if (action === "edit") {
+        startEdit(entry);
+      } else if (action === "delete") {
+        var label = (entry.yours || "") + " → " + (entry.theirs || "");
+        if (!window.confirm("Delete this homework entry?\n\n" + label)) return;
+        writeEntries(entries.filter(function (x) { return x.id !== id; }));
+        if (editingId === id) resetForm();
+        if (activeId === id) hideBrief();
+        setStatus("Deleted.");
+        render();
+      }
+    });
+  }
+
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", function () {
+      resetForm();
+      setStatus("");
+    });
+  }
+
+  if (registerBtn) {
+    registerBtn.addEventListener("click", function () {
+      var payload = {
+        saved: true,
+        at: new Date().toISOString(),
+        entryId: activeId || null
+      };
+      try {
+        localStorage.setItem(INTENT_KEY, JSON.stringify(payload));
+      } catch (err) {}
+      showRegisterState();
+    });
+  }
+
   if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var yours = document.getElementById("your_url").value.trim();
-      var theirs = document.getElementById("customer_url").value.trim();
-      var status = document.getElementById("form-status");
-      status.hidden = false;
-      status.textContent = "Got it — your URL and their URL are in. Next steps land here.";
-      try {
-        localStorage.setItem("yb2b_your_url", yours);
-        localStorage.setItem("yb2b_customer_url", theirs);
-      } catch (err) {}
+      var yours = yoursInput.value.trim();
+      var theirs = theirsInput.value.trim();
+      if (!yours || !theirs) return;
+      var entries = migrateOldKeys();
+      var now = new Date().toISOString();
+      var entry;
+      if (editingId) {
+        var found = false;
+        entries = entries.map(function (x) {
+          if (x.id !== editingId) return x;
+          found = true;
+          entry = { id: x.id, yours: yours, theirs: theirs, updatedAt: now };
+          return entry;
+        });
+        if (!found) {
+          entry = { id: editingId, yours: yours, theirs: theirs, updatedAt: now };
+          entries.push(entry);
+        }
+      } else {
+        entry = { id: uid(), yours: yours, theirs: theirs, updatedAt: now };
+        entries.push(entry);
+      }
+      writeEntries(entries);
+      setStatus("Got it — your URL and their URL are in. Next steps land here.");
+      resetForm();
+      showBrief(entry);
+      render();
     });
   }
+
+  render();
+  // If migrating left a single old pair, don't auto-open preview — wait for submit/preview.
 })();
 </script>
 </body>
