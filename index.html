@@ -56,6 +56,14 @@ footer .credit a{border-bottom-color:rgba(126,200,255,.7)}
 }
 .lead-form button:hover{background:#ff8a55}
 .lead-form .hint{margin:0;font-size:14px;color:#9aa4b2}
+
+header.site-header{margin:0 -8vw 12px}
+header.site-header img{max-height:min(160px,22vh);width:auto;max-width:100%;margin:0 auto}
+#sales.active,#buying.active{padding-top:0}
+#sales .page,#buying .page{font-size:clamp(26px,4.2vw,40px);margin:0 0 12px}
+#sales p,#buying p{margin:0 0 14px;font-size:17px}
+.lead-form{margin-top:4px;gap:12px}
+.back{margin:0 0 12px}
 </style>
 </head>
 <body>
@@ -120,6 +128,14 @@ footer .credit a{border-bottom-color:rgba(126,200,255,.7)}
       else a.removeAttribute("aria-current");
     });
     history.replaceState(null, "", id === "home" ? "#" : "#" + id);
+    if (id === "sales" || id === "buying") {
+      requestAnimationFrame(function () {
+        var target = document.getElementById(id);
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
   document.querySelectorAll("[data-go]").forEach(function (el) {
     el.addEventListener("click", function (e) {
