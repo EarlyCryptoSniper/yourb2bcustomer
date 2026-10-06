@@ -1,1 +1,112 @@
-$file:/workspace/index-embedded.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Your B2B customer</title>
+<style>
+html,body{margin:0;min-height:100vh;background:#070d1d;color:#f4f6fb;font-family:Inter,system-ui,sans-serif}
+body{display:flex;flex-direction:column;align-items:stretch;min-height:100vh;padding:0;box-sizing:border-box}
+.wrap{width:min(920px,100%);flex:1;display:flex;flex-direction:column;margin:0 auto;padding:0 8vw}
+header.site-header{margin:0 -8vw 28px;width:calc(100% + 16vw);max-width:none}
+header.site-header img{display:block;width:100%;height:auto}
+main{flex:1;display:flex;flex-direction:column;padding-top:4px}
+.panel{display:none}
+.panel.active{display:block}
+.hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:22px;padding:12px 0 40px}
+.hero h1{font-size:clamp(34px,5.8vw,56px);font-weight:560;letter-spacing:-.03em;line-height:1.08;margin:0;max-width:18ch}
+.cta{
+  appearance:none;cursor:pointer;border:none;
+  background:#ff6b2c;color:#140800;
+  font:inherit;font-size:18px;font-weight:600;
+  padding:14px 22px;border-radius:10px;
+  box-shadow:0 14px 28px rgba(0,0,0,.35);
+  transition:transform .15s ease, background .15s ease
+}
+.cta:hover{transform:translateY(-2px);background:#ff8a55}
+.cta:focus-visible{outline:2px solid #f4f6fb;outline-offset:4px}
+.label{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px;color:#ff8a55}
+h1.page{font-size:clamp(32px,5.5vw,52px);font-weight:560;letter-spacing:-.03em;line-height:1.08;margin:0 0 18px}
+p{max-width:34rem;color:#9aa4b2;font-size:19px;line-height:1.5;margin:0 0 22px}
+a{color:#f4f6fb;text-decoration:none;border-bottom:1px solid rgba(126,200,255,.7)}
+.back{
+  appearance:none;cursor:pointer;background:none;border:none;
+  color:#9aa4b2;font:inherit;font-size:15px;padding:0;margin:0 0 22px;
+  border-bottom:1px solid transparent
+}
+.back:hover{color:#f4f6fb;border-bottom-color:rgba(126,200,255,.5)}
+footer{margin-top:auto;padding:36px 0 28px;color:#9aa4b2;font-size:15px;border-top:1px solid rgba(244,246,251,.08)}
+footer .footer-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 28px}
+footer nav{display:flex;flex-wrap:wrap;gap:8px 22px}
+footer nav a{border-bottom-color:transparent;color:#c5cdd8}
+footer nav a:hover,footer nav a[aria-current="page"]{color:#f4f6fb;border-bottom-color:rgba(126,200,255,.7)}
+footer .credit a{border-bottom-color:rgba(126,200,255,.7)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site-header">
+<img src="banner.jpg" alt="I am your B2B customer."/>
+</header>
+<main>
+<section id="home" class="panel active" aria-label="Home">
+<div class="hero">
+<h1>Want to grow your sales?</h1>
+<button type="button" class="cta" data-go="sales">Yes — show me how</button>
+</div>
+</section>
+<section id="sales" class="panel" aria-label="Sales">
+<button type="button" class="back" data-go="home">← Back</button>
+<span class="label">Sales</span>
+<h1 class="page">Sell with the homework done.</h1>
+<p>I sat in the buyer's chair. I use that, and AI, so sales shows up with the homework done.</p>
+<p>You sit on the seller side. I bring the buyer's chair, the objections, and the prep — so your next conversation starts further in.</p>
+<p>Next steps for this path land here.</p>
+</section>
+<section id="buying" class="panel" aria-label="Buying">
+<button type="button" class="back" data-go="home">← Back</button>
+<span class="label" style="color:#7eb0ff">Buying</span>
+<h1 class="page">Buy with a sharper seat.</h1>
+<p>Buying opens when the name is made. Until then we focus on Sales.</p>
+<p>You sit on the buyer side. I help you pressure-test pitches, clarify the job to be done, and keep vendors honest.</p>
+</section>
+</main>
+<footer>
+<div class="footer-inner">
+<nav aria-label="Site">
+<a href="#home" data-go="home">Home</a>
+<a href="#sales" data-go="sales">Sales</a>
+<a href="#buying" data-go="buying">Buying</a>
+</nav>
+<p class="credit" style="margin:0"><a href="https://x.com/DutchKonnect">@DutchKonnect</a></p>
+</div>
+</footer>
+</div>
+<script>
+(function () {
+  var panels = document.querySelectorAll(".panel");
+  var links = document.querySelectorAll("footer nav a[data-go]");
+  function show(id) {
+    if (id !== "home" && id !== "sales" && id !== "buying") id = "home";
+    panels.forEach(function (el) {
+      el.classList.toggle("active", el.id === id);
+    });
+    links.forEach(function (a) {
+      var on = a.getAttribute("data-go") === id;
+      if (on) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    });
+    history.replaceState(null, "", id === "home" ? "#" : "#" + id);
+  }
+  document.querySelectorAll("[data-go]").forEach(function (el) {
+    el.addEventListener("click", function (e) {
+      if (el.tagName === "A") e.preventDefault();
+      show(el.getAttribute("data-go"));
+    });
+  });
+  var hash = (location.hash || "").replace(/^#/, "");
+  show(hash === "sales" || hash === "buying" ? hash : "home");
+})();
+</script>
+</body>
+</html>
