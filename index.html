@@ -41,6 +41,21 @@ footer nav{display:flex;flex-wrap:wrap;gap:8px 22px}
 footer nav a{border-bottom-color:transparent;color:#c5cdd8}
 footer nav a:hover,footer nav a[aria-current="page"]{color:#f4f6fb;border-bottom-color:rgba(126,200,255,.7)}
 footer .credit a{border-bottom-color:rgba(126,200,255,.7)}
+
+.lead-form{display:flex;flex-direction:column;gap:14px;max-width:28rem;margin:8px 0 0}
+.lead-form label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:#c5cdd8}
+.lead-form input{
+  appearance:none;background:#0c1428;border:1px solid rgba(244,246,251,.14);
+  color:#f4f6fb;font:inherit;font-size:16px;padding:12px 14px;border-radius:10px
+}
+.lead-form input:focus{outline:2px solid rgba(255,107,44,.7);outline-offset:2px;border-color:transparent}
+.lead-form button{
+  appearance:none;cursor:pointer;border:none;align-self:flex-start;
+  background:#ff6b2c;color:#140800;font:inherit;font-size:16px;font-weight:600;
+  padding:12px 18px;border-radius:10px;margin-top:4px
+}
+.lead-form button:hover{background:#ff8a55}
+.lead-form .hint{margin:0;font-size:14px;color:#9aa4b2}
 </style>
 </head>
 <body>
@@ -59,9 +74,17 @@ footer .credit a{border-bottom-color:rgba(126,200,255,.7)}
 <button type="button" class="back" data-go="home">← Back</button>
 <span class="label">Sales</span>
 <h1 class="page">Sell with the homework done.</h1>
-<p>I sat in the buyer's chair. I use that, and AI, so sales shows up with the homework done.</p>
-<p>You sit on the seller side. I bring the buyer's chair, the objections, and the prep — so your next conversation starts further in.</p>
-<p>Next steps for this path land here.</p>
+<p>Drop two links. I sit in the buyer's chair and prep the conversation from there.</p>
+<form class="lead-form" id="sales-form" action="#" method="get">
+<label>Your URL
+<input type="url" name="your_url" id="your_url" placeholder="https://yourcompany.com" required autocomplete="url"/>
+</label>
+<label>Your customer's URL
+<input type="url" name="customer_url" id="customer_url" placeholder="https://theircustomer.com" required autocomplete="url"/>
+</label>
+<button type="submit">Prepare the homework</button>
+<p class="hint" id="form-status" hidden></p>
+</form>
 </section>
 <section id="buying" class="panel" aria-label="Buying">
 <button type="button" class="back" data-go="home">← Back</button>
@@ -106,6 +129,21 @@ footer .credit a{border-bottom-color:rgba(126,200,255,.7)}
   });
   var hash = (location.hash || "").replace(/^#/, "");
   show(hash === "sales" || hash === "buying" ? hash : "home");
+  var form = document.getElementById("sales-form");
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var yours = document.getElementById("your_url").value.trim();
+      var theirs = document.getElementById("customer_url").value.trim();
+      var status = document.getElementById("form-status");
+      status.hidden = false;
+      status.textContent = "Got it — your URL and their URL are in. Next steps land here.";
+      try {
+        localStorage.setItem("yb2b_your_url", yours);
+        localStorage.setItem("yb2b_customer_url", theirs);
+      } catch (err) {}
+    });
+  }
 })();
 </script>
 </body>
